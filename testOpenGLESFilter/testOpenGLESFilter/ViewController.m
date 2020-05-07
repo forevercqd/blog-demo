@@ -72,6 +72,7 @@ typedef struct {
     
     self.vertices = malloc(sizeof(SenceVertex) * 4);
     
+    // cqd.1 此处是指定的顶点坐标与纹理坐标;
     self.vertices[0] = (SenceVertex){{-1, 1, 0}, {0, 1}};
     self.vertices[1] = (SenceVertex){{-1, -1, 0}, {0, 0}};
     self.vertices[2] = (SenceVertex){{1, 1, 0}, {1, 1}};
@@ -92,11 +93,12 @@ typedef struct {
     
     glViewport(0, 0, self.drawableWidth, self.drawableHeight);
     
+    // cqd.2 创建顶点缓冲区，并将顶点坐标与纹理坐标拷贝至顶点缓冲区中，后续对该顶点缓冲区的使用，即是对拷贝的顶点坐标的使用;
     GLuint vertexBuffer;
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glGenBuffers(1, &vertexBuffer); // 创建顶点缓冲对象;
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);    // 将顶点缓冲区对象设置为当前数组缓冲区对象或当前元素的缓冲区对象;
     GLsizeiptr bufferSizeBytes = sizeof(SenceVertex) * 4;
-    glBufferData(GL_ARRAY_BUFFER, bufferSizeBytes, self.vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, bufferSizeBytes, self.vertices, GL_STATIC_DRAW);  // 为顶点缓冲区对象申请内存空间,并且将顶点数据拷贝至顶点数据缓冲区对象中;
 
     [self setupNormalShaderProgram]; // 一开始选用默认的着色器
     
@@ -227,7 +229,7 @@ typedef struct {
     filerBar.delegate = self;
     [self.view addSubview:filerBar];
     
-    NSArray *dataSource = @[@"无", @"缩放", @"灵魂出窍", @"抖动", @"闪白", @"毛刺", @"幻觉"];
+    NSArray *dataSource = @[@"无", @"缩放", @"灵魂出窍", @"抖动", @"闪白", @"毛刺", @"幻觉", @"矩形马赛克"];
     filerBar.itemList = dataSource;
 }
 
@@ -283,6 +285,8 @@ typedef struct {
         [self setupGlitchShaderProgram];
     } else if (index == 6) {
         [self setupVertigoShaderProgram];
+    }else if(index == 7){
+        [self setupRectMosaicShaderProgram];
     }
     
     // 重新开始计算时间
@@ -326,6 +330,10 @@ typedef struct {
     [self setupShaderProgramWithName:@"Vertigo"];
 }
 
+// 马赛克滤镜
+- (void)setupRectMosaicShaderProgram{
+    [self setupShaderProgramWithName:@"Mosaic"];
+}
 // 初始化着色器程序
 - (void)setupShaderProgramWithName:(NSString *)name {
     GLuint program = [self programWithShaderName:name];
@@ -339,7 +347,20 @@ typedef struct {
     glBindTexture(GL_TEXTURE_2D, self.textureID);
     glUniform1i(textureSlot, 0);
     
+//    NSLog(@"setupShaderProgramWithName, offsetof(SenceVertex, positionCoord) = %@, offsetof(SenceVertex, textureCoord) = %@.",
+//          offsetof(SenceVertex, positionCoord), offsetof(SenceVertex, textureCoord));
+    
+    printf("setupShaderProgramWithName, sizeof(GLKVector3) = %d, sizeof(textureCoord) %d, sizeof(SenceVertex)  %d.  \n", sizeof(GLKVector3), sizeof(GLKVector2), sizeof(SenceVertex));
+    printf("setupShaderProgramWithName, offsetof(SenceVertex, positionCoord) = %d, offsetof(SenceVertex, textureCoord) = %d.\n",
+    offsetof(SenceVertex, positionCoord), offsetof(SenceVertex, textureCoord));
+    
+    // 启用该顶点属性;
     glEnableVertexAttribArray(positionSlot);
+    // 第一个参数:positionSlot  表示使用shader中哪个变量;
+    // 第二个参数: 3表示每个顶点由几个第三个参数指定的数据类型来指定;
+    // 第三个参数: GL_FLOAT 表示每个数据点的类型;
+    // 第四个参数：表示是否希望所有的数据被标准化至[-1, 1]间;
+    // 第五个参数: sizeof(SenceVertex) 表示同一属性的连续的顶点间的间隔，以字节为单位;
     glVertexAttribPointer(positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(SenceVertex), NULL + offsetof(SenceVertex, positionCoord));
     
     glEnableVertexAttribArray(textureCoordsSlot);
