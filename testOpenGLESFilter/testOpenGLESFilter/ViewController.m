@@ -229,7 +229,7 @@ typedef struct {
     filerBar.delegate = self;
     [self.view addSubview:filerBar];
     
-    NSArray *dataSource = @[@"无", @"缩放", @"灵魂出窍", @"抖动", @"闪白", @"毛刺", @"幻觉", @"矩形马赛克"];
+    NSArray *dataSource = @[@"无", @"缩放", @"灵魂出窍", @"抖动", @"闪白", @"毛刺", @"幻觉", @"矩形马赛克", @"上下分屏"];
     filerBar.itemList = dataSource;
 }
 
@@ -287,6 +287,8 @@ typedef struct {
         [self setupVertigoShaderProgram];
     }else if(index == 7){
         [self setupRectMosaicShaderProgram];
+    }else if(index == 8){
+        [self setupTBSplitShaderProgram];
     }
     
     // 重新开始计算时间
@@ -334,6 +336,11 @@ typedef struct {
 - (void)setupRectMosaicShaderProgram{
     [self setupShaderProgramWithName:@"Mosaic"];
 }
+
+-(void)setupTBSplitShaderProgram{
+    [self setupShaderProgramWithName:@"TBSplit"];
+}
+
 // 初始化着色器程序
 - (void)setupShaderProgramWithName:(NSString *)name {
     GLuint program = [self programWithShaderName:name];

@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		E1CB82522463EBBA000EB60B /* Mosaic.vsh in Resources */ = {isa = PBXBuildFile; fileRef = E1CB82502463EBBA000EB60B /* Mosaic.vsh */; };
 		E1CB82532463EBBA000EB60B /* Mosaic.fsh in Resources */ = {isa = PBXBuildFile; fileRef = E1CB82512463EBBA000EB60B /* Mosaic.fsh */; };
+		E1CB825924642060000EB60B /* TBSplit.vsh in Sources */ = {isa = PBXBuildFile; fileRef = E1CB825824642060000EB60B /* TBSplit.vsh */; };
+		E1CB825A2464227F000EB60B /* TBSplit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = E1CB825824642060000EB60B /* TBSplit.vsh */; };
+		E1CB825C246422D3000EB60B /* TBSplit.fsh in Sources */ = {isa = PBXBuildFile; fileRef = E1CB825B246422D3000EB60B /* TBSplit.fsh */; };
+		E1CB825D24642304000EB60B /* TBSplit.fsh in Resources */ = {isa = PBXBuildFile; fileRef = E1CB825B246422D3000EB60B /* TBSplit.fsh */; };
 		E84B6D46224F31DC00692D5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B6D45224F31DC00692D5C /* AppDelegate.m */; };
 		E84B6D49224F31DC00692D5C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B6D48224F31DC00692D5C /* ViewController.m */; };
 		E84B6D4C224F31DC00692D5C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E84B6D4A224F31DC00692D5C /* Main.storyboard */; };
@@ -37,6 +41,8 @@
 /* Begin PBXFileReference section */
 		E1CB82502463EBBA000EB60B /* Mosaic.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Mosaic.vsh; sourceTree = "<group>"; };
 		E1CB82512463EBBA000EB60B /* Mosaic.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Mosaic.fsh; sourceTree = "<group>"; };
+		E1CB825824642060000EB60B /* TBSplit.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = TBSplit.vsh; sourceTree = "<group>"; };
+		E1CB825B246422D3000EB60B /* TBSplit.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = TBSplit.fsh; sourceTree = "<group>"; };
 		E84B6D41224F31DC00692D5C /* testOpenGLESFilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testOpenGLESFilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E84B6D44224F31DC00692D5C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E84B6D45224F31DC00692D5C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -88,6 +94,15 @@
 			path = Mosaic;
 			sourceTree = "<group>";
 		};
+		E1CB8254246402E2000EB60B /* TBSplit */ = {
+			isa = PBXGroup;
+			children = (
+				E1CB825824642060000EB60B /* TBSplit.vsh */,
+				E1CB825B246422D3000EB60B /* TBSplit.fsh */,
+			);
+			path = TBSplit;
+			sourceTree = "<group>";
+		};
 		E84B6D38224F31DC00692D5C = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +144,7 @@
 		E84B6D5C224F340E00692D5C /* Shader */ = {
 			isa = PBXGroup;
 			children = (
+				E1CB8254246402E2000EB60B /* TBSplit */,
 				E1CB824B2463EB45000EB60B /* Mosaic */,
 				E84B6D74224F709400692D5C /* Normal */,
 				E84B6D77224F709400692D5C /* Scale */,
@@ -263,6 +279,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1CB825D24642304000EB60B /* TBSplit.fsh in Resources */,
+				E1CB825A2464227F000EB60B /* TBSplit.vsh in Resources */,
 				E84B6D7F224F709400692D5C /* Scale.vsh in Resources */,
 				E1CB82522463EBBA000EB60B /* Mosaic.vsh in Resources */,
 				E84B6D51224F31DC00692D5C /* LaunchScreen.storyboard in Resources */,
@@ -294,7 +312,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E84B6D49224F31DC00692D5C /* ViewController.m in Sources */,
+				E1CB825C246422D3000EB60B /* TBSplit.fsh in Sources */,
 				E84B6D6D224F522500692D5C /* FilterBar.m in Sources */,
+				E1CB825924642060000EB60B /* TBSplit.vsh in Sources */,
 				E84B6D54224F31DC00692D5C /* main.m in Sources */,
 				E84B6D70224F536800692D5C /* FilterBarCell.m in Sources */,
 				E84B6D46224F31DC00692D5C /* AppDelegate.m in Sources */,
