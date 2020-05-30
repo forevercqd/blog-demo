@@ -368,17 +368,16 @@ typedef struct {
     GLuint positionSlot = glGetAttribLocation(program, "Position");
     GLuint textureSlot = glGetUniformLocation(program, "Texture");
     GLuint textureSlot1 = glGetUniformLocation(program, "Texture1");
+    
     GLuint textureCoordsSlot = glGetAttribLocation(program, "TextureCoords");
     
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, self.textureID);
     glUniform1i(textureSlot, 0);
     
-    
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, self.textureID1);
     glUniform1i(textureSlot1, 1);
-    
     
 //    NSLog(@"setupShaderProgramWithName, offsetof(SenceVertex, positionCoord) = %@, offsetof(SenceVertex, textureCoord) = %@.",
 //          offsetof(SenceVertex, positionCoord), offsetof(SenceVertex, textureCoord));
