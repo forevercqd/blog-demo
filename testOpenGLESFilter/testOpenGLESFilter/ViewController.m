@@ -27,6 +27,7 @@ typedef struct {
 @property (nonatomic, assign) GLuint program; // 着色器程序
 @property (nonatomic, assign) GLuint vertexBuffer; // 顶点缓存
 @property (nonatomic, assign) GLuint textureID; // 纹理 ID
+@property (nonatomic, assign) GLuint textureID1;
 
 @end
 
@@ -90,6 +91,12 @@ typedef struct {
     UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
     GLuint textureID = [self createTextureWithImage:image];
     self.textureID = textureID;  // 将纹理 ID 保存，方便后面切换滤镜的时候重用
+    
+    NSString *imagePath1 = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"beauty.jpg"];
+    UIImage *image1 = [UIImage imageWithContentsOfFile:imagePath1];
+    GLuint textureID1 = [self createTextureWithImage:image1];
+    self.textureID1 = textureID1;  // 将纹理 ID 保存，方便后面切换滤镜的时候重用
+    
     
     glViewport(0, 0, self.drawableWidth, self.drawableHeight);
     
@@ -229,7 +236,7 @@ typedef struct {
     filerBar.delegate = self;
     [self.view addSubview:filerBar];
     
-    NSArray *dataSource = @[@"无", @"缩放", @"灵魂出窍", @"抖动", @"闪白", @"毛刺", @"幻觉", @"矩形马赛克", @"上下分屏"];
+    NSArray *dataSource = @[@"无", @"缩放", @"灵魂出窍", @"抖动", @"闪白", @"毛刺", @"幻觉", @"矩形马赛克", @"上下分屏", @" 灰度", @"转场"];
     filerBar.itemList = dataSource;
 }
 
@@ -289,6 +296,10 @@ typedef struct {
         [self setupRectMosaicShaderProgram];
     }else if(index == 8){
         [self setupTBSplitShaderProgram];
+    }else if(index == 9){
+        [self setupGrayShaderProgram];
+    }else if(index == 10){
+        [self setupScenceTransitionShaderProgram];
     }
     
     // 重新开始计算时间
@@ -341,6 +352,14 @@ typedef struct {
     [self setupShaderProgramWithName:@"TBSplit"];
 }
 
+-(void)setupGrayShaderProgram{
+    [self setupShaderProgramWithName:@"Gray"];
+}
+
+-(void)setupScenceTransitionShaderProgram{
+    [self setupShaderProgramWithName:@"ScenceTransition"];
+}
+
 // 初始化着色器程序
 - (void)setupShaderProgramWithName:(NSString *)name {
     GLuint program = [self programWithShaderName:name];
@@ -348,11 +367,18 @@ typedef struct {
     
     GLuint positionSlot = glGetAttribLocation(program, "Position");
     GLuint textureSlot = glGetUniformLocation(program, "Texture");
+    GLuint textureSlot1 = glGetUniformLocation(program, "Texture1");
     GLuint textureCoordsSlot = glGetAttribLocation(program, "TextureCoords");
     
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, self.textureID);
     glUniform1i(textureSlot, 0);
+    
+    
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, self.textureID1);
+    glUniform1i(textureSlot1, 1);
+    
     
 //    NSLog(@"setupShaderProgramWithName, offsetof(SenceVertex, positionCoord) = %@, offsetof(SenceVertex, textureCoord) = %@.",
 //          offsetof(SenceVertex, positionCoord), offsetof(SenceVertex, textureCoord));
